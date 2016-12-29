@@ -3,13 +3,27 @@
 require 'csv'
 require 'yaml'
 
-VERSION = 1
+VERSION = '1.1.0'
 
 # Which file are we converting?
 file = ARGV[0] || exit
 
 # Load the yaml file.
 yaml = YAML.load_file(file)
+
+def dismissals_for(delivery)
+  delivery['wicket'].is_a?(Array) ? delivery['wicket'] : [delivery['wicket']]
+end
+
+def dismissal_methods_for(delivery)
+  return '' unless delivery.key?('wicket')
+  dismissals_for(delivery).map { |dismissal| dismissal['kind'] }.join(', ')
+end
+
+def dismissed_players_for(delivery)
+  return '' unless delivery.key?('wicket')
+  dismissals_for(delivery).map { |dismissal| dismissal['player_out'] }.join(', ')
+end
 
 # Generate the csv.
 csv_string = CSV.generate do |csv|
@@ -90,8 +104,8 @@ csv_string = CSV.generate do |csv|
             delivery['bowler'],
             delivery['runs']['batsman'],
             delivery['runs']['extras'],
-            delivery.key?('wicket') ? delivery['wicket']['kind'] : '',
-            delivery.key?('wicket') ? delivery['wicket']['player_out'] : ''
+            dismissal_methods_for(delivery),
+            dismissed_players_for(delivery)
           ]
         end
       end

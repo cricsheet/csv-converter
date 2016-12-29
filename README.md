@@ -18,7 +18,7 @@ $ bundle install
 
 `convert.rb` is a ruby script. It takes the path to a single match file (in version 0.7 YAML format), and outputs the generated CSV for the match.
 
-## Examples
+### Examples
 
 Convert a single YAML file, and print the resulting CSV to the command line.
 
@@ -32,6 +32,32 @@ Convert a single YAML file, and write the resulting CSV to a file named `data.cs
 $ ./convert.rb data.yaml > data.csv
 ```
 
+## The format of the data
+
+Each file has a 'version', multiple 'info' lines, and multiple 'ball' lines.
+The 'version' is 1.1.0 right now, and will change as I make changes (in line 
+with the [Semantic Versioning guidlines](http://semver.org/)). The 'info'
+entries should be fairly self-explanatory but feel free to ask on
+Twitter (@cricsheet) if you're unsure. If you look carefully you may see some
+slight hints as to some data we'll be including in the full data files in
+the future.
+
+Each 'ball' line has the following fields:
+
+  * The word 'ball' to identify it as such
+  * Innings number, starting from 1
+  * Over and ball
+  * Batting team name
+  * Batsman
+  * Non-striker
+  * Bowler
+  * Runs-off-bat
+  * Extras
+  * Kind of wicket, if any. If more than one wicket fell on a delivery
+    then the dismissal methods are separated by `, `.
+  * Dismissed player, if there was a wicket. If more than one wicket
+    fell on a delivery then the dismissed players are separated by `, `.
+
 ## Known limitations
 
 There are a number of known limitations with the current CSV format. Discussion/feedback on how best to address these is welcome.
@@ -39,7 +65,3 @@ There are a number of known limitations with the current CSV format. Discussion/
 ### Lack of detail for extras
 
 At the moment each delivery merely shows how many extras were scored, and doesn't break that information down into the type of extras that were conceded. This is due to the original request for CSV data specially asking just for the total extras conceded per delivery.
-
-### Multiple dismissals on the same delivery
-
-There is also a potential issue with regards to multiple dismissals recorded against a single delivery. This has happened once in the period that Cricsheet covers, in [the 1st Test of 2014 between Pakistan and Australia](http://www.espncricinfo.com/pakistan-v-australia-2014/engine/match/727927.html?innings=1;page=3;view=commentary). Versions 0.6 and up of the YAML data support this situation, however the CSV format does not as it was created before that event took place.
