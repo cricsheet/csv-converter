@@ -3,7 +3,7 @@
 require 'csv'
 require 'yaml'
 
-VERSION = '1.1.0'
+VERSION = '1.2.0'
 
 # Which file are we converting?
 file = ARGV[0] || exit
@@ -92,6 +92,17 @@ csv_string = CSV.generate do |csv|
   # Now deal with the innings.
   yaml['innings'].each_with_index do |inning, inning_no|
     inning.each_pair do |inning_name, inning_data|
+      if inning_data.key?('penalty_runs')
+        %w(pre post).each do |type|
+          next unless inning_data['penalty_runs'].key?(type)
+          csv << [
+            'penalty_runs',
+            inning_no + 1, type,
+            inning_data['penalty_runs'][type]
+          ]
+        end
+      end
+
       inning_data['deliveries'].each do |delivery_data|
         delivery_data.each_pair do |ball_no, delivery|
           csv << [
