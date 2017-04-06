@@ -39,8 +39,12 @@ csv_string = CSV.generate do |csv|
     csv << ['info', 'date', date.strftime("%Y/%m/%d")]
   end
 
-  if yaml['info'].key?('competition') && yaml['info']['competition'] == 'IPL'
-    csv << ['info', 'competition', 'Indian Premier League']
+  if yaml['info'].key?('competition')
+    if yaml['info']['competition'] == 'IPL'
+      csv << ['info', 'competition', 'Indian Premier League']
+    elsif yaml['info']['competition'] == 'Big Bash League'
+      csv << ['info', 'competition', yaml['info']['competition']]
+    end
   end
 
   csv << ['info', 'venue', yaml['info']['venue']]

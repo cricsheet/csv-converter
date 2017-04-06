@@ -1,6 +1,6 @@
 # csv-converter
 
-A ruby script to convert [version 0.8](http://cricsheet.org/format/) [Cricsheet YAML data files](http://cricsheet.org/downloads/) into CSV.
+A ruby script to convert [version 0.9](http://cricsheet.org/format/) [Cricsheet YAML data files](http://cricsheet.org/downloads/) into CSV.
 
 The CSV generated is considered an **experimental** Cricsheet format. Originally CSV data was provided for only T20 and IPL matches, however that has now expanded to include all matches. The CSV version was originally created in response to a request for a simple version of the data in CSV format (rather than YAML). The data it generates is not as complete as the YAML data and, currently, does not fully support all fields. A list of [known limitations](#known-limitations) can be found below.
 
@@ -16,7 +16,7 @@ $ bundle install
 
 ## Usage
 
-`convert.rb` is a ruby script. It takes the path to a single match file (in version 0.8 YAML format), and outputs the generated CSV for the match.
+`convert.rb` is a ruby script. It takes the path to a single match file (in version 0.9 YAML format), and outputs the generated CSV for the match.
 
 ### Examples
 
